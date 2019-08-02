@@ -1,8 +1,12 @@
 FROM node:10.16.0-stretch-slim
 
-RUN npm install pm2 -g
+WORKDIR /app
+COPY backend_src .
+COPY config/pm2.json pm2.json
 
-# TODO use the right path to main app file
-# TODO create and use a config file with cluster mode settings http://pm2.keymetrics.io/docs/usage/docker-pm2-nodejs/
-#CMD ["pm2-runtime", "main.js"]
-CMD ["node"]
+RUN npm install pm2 -g \
+    && npm install \
+    && npm run prestart:prod
+
+# TODO see more http://pm2.keymetrics.io/docs/usage/docker-pm2-nodejs/ and https://hub.docker.com/r/keymetrics/pm2
+CMD ["pm2-runtime", "start", "pm2.json"]

@@ -1,0 +1,11 @@
+{
+  "name": "ql-practice",
+  "script": "dist/main.js",
+  "instances": "4",
+  "env": {
+    "NODE_ENV": "dev"
+  },
+  "env_production" : {
+    "NODE_ENV": "production"
+  }
+}

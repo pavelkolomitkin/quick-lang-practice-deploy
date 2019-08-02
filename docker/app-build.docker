@@ -1,6 +1,9 @@
 FROM node:10.16.0-stretch-slim
 
 RUN npm install -g typescript \
+    && npm install -g tsconfig-paths \
+    && npm install -g ts-node \
+    && npm install -g rimraf \
     && npm i -g @nestjs/cli
 
 CMD ["node"]

@@ -4,3 +4,5 @@
 .env.mailer
 
 .idea/
+backend_src/
+frontend_src/

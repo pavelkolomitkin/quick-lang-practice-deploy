@@ -18,23 +18,34 @@ fi
 cd ./backend_src && git pull origin feature/client/prod-mailing && cd ..
 
 
-# up backend compose in order to
-echo -n 'Up backend containers...'
-echo -en '\n'
-docker-compose -f ./docker/docker-compose-backend-build.yaml up -d
 # - build a new version of the backend project
 echo -en '\n'
 echo 'Build backend application code...'
 echo -en '\n'
-docker exec app-container-build npm run prestart:prod
+# Build the builder image
+docker build -t ql/build-app -f docker/app-build.docker .
+# Build the project
+docker run --rm -v $(pwd)/backend_src:/app -w /app ql/build-app npm install && npm run prestart:prod
+
+# up backend compose in order to
+echo -n 'Up backend containers...'
+echo -en '\n'
+docker-compose -f ./docker/docker-compose-backend-build.yaml up -d
 
 # - perform database migrations
 echo -en '\n'
 echo 'Run database migrations...'
 echo -en '\n'
-docker exec mongo-container-prod npm run migrate-mongo up
+docker exec app-container-build npm run migrate-mongo up
 
+echo -en '\n'
 echo -n 'Stop build containers...'
 echo -en '\n'
 docker-compose -f ./docker/docker-compose-backend-build.yaml down
+
+echo -en '\n'
+echo -n 'Build a production image...'
+echo -en '\n'
+docker image rm ql/app
+docker build -t ql/app -f docker/app.docker .
 
