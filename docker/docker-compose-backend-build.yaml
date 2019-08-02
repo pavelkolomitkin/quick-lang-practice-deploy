@@ -1,0 +1,46 @@
+version: '3'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: app-build.docker
+    container_name: 'app-container-build'
+    working_dir: /app
+    volumes:
+      - ./backend_src/dist:/app
+      - ./upload:/app/upload
+      - ./thumbs:/app/thumbs
+    command: 'npm run start'
+    env_file:
+      - ./.env.build
+    networks:
+      - backend_net
+    links:
+      - mongo-service
+      - mailer-service
+
+    mongo-service:
+      image: mongo:4.0.10-xenial
+      container_name: 'mongo-container-prod'
+      ports:
+        - '30001:27017'
+      restart: always
+      volumes:
+        - ql_practice_db_prod:/data/db
+      command: mongod --replSet rs_qlp
+      env_file:
+        - ./.env.build
+      networks:
+        - backend_net
+
+networks:
+  backend_net:
+    internal: true
+
+volumes:
+  ql_practice_db_prod:
+    driver: local
+    driver_opts:
+      type: bind
+      device: /root/project/database
