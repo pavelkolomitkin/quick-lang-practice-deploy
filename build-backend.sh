@@ -11,11 +11,10 @@ echo 'Pull the source code...'
 echo -en '\n'
 if [[ ! -d ./backend_src/ ]]
 then
-    git clone -b feature/client/prod-mailing https://github.com/pavelkolomitkin/quick-lang-practice-backend-nest.git backend_src
+    git clone https://github.com/pavelkolomitkin/quick-lang-practice-backend-nest.git backend_src
 fi
-# TODO switch to master branch when it will be completed
-#cd ./backend_src && git pull origin master && cd ..
-cd ./backend_src && git pull origin feature/client/prod-mailing && cd ..
+
+cd ./backend_src && git pull origin master && cd ..
 
 
 # - build a new version of the backend project
