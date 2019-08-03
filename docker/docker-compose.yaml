@@ -49,7 +49,7 @@ services:
     restart: always
     volumes:
       - ../../database:/data/db
-    env_file:
+    environment:
       MONGO_INITDB_DATABASE: 'qlp_practice'
     command: mongod --replSet rs_qlp
     networks:
