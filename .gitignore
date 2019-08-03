@@ -6,5 +6,7 @@
 .idea/
 backend_src/
 frontend_src/
+thumbs/
+upload/
 
 config/pm2.json
