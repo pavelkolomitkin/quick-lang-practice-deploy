@@ -27,12 +27,14 @@ services:
     ports:
       - '3000:3000'
     volumes:
-      - ../backend_src:/app
       - ../upload:/app/upload
       - ../thumbs:/app/thumbs
-    env_file:
-      - ./.env.prod
+      - ../config/pm2.json:/app/pm2.json
+      - /etc/letsencrypt:/etc/letsencrypt
+      - ../config/mailer/opendkim/keys/mail.ql-practice.ru:/app/opendkim
+    command: 'pm2-runtime start pm2.json'
     networks:
+      - frontend_net
       - backend_net
     links:
       - mongodb-service
@@ -47,16 +49,18 @@ services:
     volumes:
       - ../../database:/data/db
     env_file:
-      - ./.env.prod
+      MONGO_INITDB_DATABASE: 'qlp_practice'
     command: mongod --replSet rs_qlp
     networks:
       - backend_net
 
   mailer-service:
     image: catatnight/postfix
+    hostname: 'mail'
+    domainname: 'ql-practice.ru'
     container_name: 'mailer-service-prod'
     ports:
-      - '587:587'
+      - '25:25'
     volumes:
       - ../config/mailer/opendkim:/etc/opendkim
       - /etc/letsencrypt/live/ql-practice.ru/fullchain.pem:/etc/postfix/certs/public.crt
@@ -68,6 +72,7 @@ services:
       - SYS_PTRACE
     restart: always
     networks:
+      - frontend_net
       - backend_net
 
 networks:

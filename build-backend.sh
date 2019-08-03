@@ -25,7 +25,8 @@ echo -en '\n'
 # Build the builder image
 docker build -t ql/build-app -f docker/app-build.docker .
 # Build the project
-docker run --rm -v $(pwd)/backend_src:/app -w /app ql/build-app npm install && npm run prestart:prod
+docker run --rm -v $(pwd)/backend_src:/app -w /app ql/build-app npm install
+docker run --rm -v $(pwd)/backend_src:/app -w /app ql/build-app npm run prestart:prod
 
 # up backend compose in order to
 echo -n 'Up backend containers...'
