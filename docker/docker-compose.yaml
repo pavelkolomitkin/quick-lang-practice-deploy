@@ -57,13 +57,12 @@ services:
 
   mailer-service:
     image: catatnight/postfix
-    hostname: 'mail'
     domainname: 'ql-practice.ru'
     container_name: 'mailer-service-prod'
     ports:
       - '25:25'
     volumes:
-      - ../config/mailer/opendkim:/etc/opendkim
+      - /etc/opendkim:/etc/opendkim/domainkeys
       - /etc/letsencrypt/live/ql-practice.ru/fullchain.pem:/etc/postfix/certs/public.crt
       - /etc/letsencrypt/live/ql-practice.ru/privkey.pem:/etc/postfix/certs/private.key
     env_file:

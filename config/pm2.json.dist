@@ -21,8 +21,6 @@
     "MAIL_PASSWORD": "test",
     "EMAIL_NO_REPLY": "noreply@mail.ql-practice.ru",
     "SSL_KEY_FILE_PATH": "/etc/letsencrypt/live/ql-practice.ru/privkey.pem",
-    "SLL_CERT_FILE_PATH": "/etc/letsencrypt/live/ql-practice.ru/fullchain.pem",
-    "OPENDIKIM_SELECTOR": "mail",
-    "OPENDIKIM_DOMAIN": "mail.ql-practice.ru"
+    "SLL_CERT_FILE_PATH": "/etc/letsencrypt/live/ql-practice.ru/fullchain.pem"
   }
 }
